@@ -4,6 +4,7 @@ const fileSchema = new mongoose.Schema({
     fileName:{
         type:String,
         required:true,
+        unique: true
     },
     folderName:{
         type:String,

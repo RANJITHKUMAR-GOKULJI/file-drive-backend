@@ -8,10 +8,10 @@ function File_Folder(){
 
 File_Folder.prototype.fileUpload=(req, res)=>{
     console.log(req.file);
-     const fileName = req.file.filename;
-     const folderName = req.file.destination;
-     const fileType = req.file.mimetype;
-     console.log({folderName});
+    const fileName = req.file.filename;
+    const folderName = req.file.destination;
+    const fileType = req.file.mimetype;
+    console.log({folderName});
 
     fileModel({fileName,folderName,fileType}).save().then(doc=>{
         res.json({doc});
@@ -37,12 +37,20 @@ File_Folder.prototype.fileRetrieve=(req, res)=>{
     }
     ,{
         $project:{
-            fileName:1,
+            fileName: 1,
+            folderName: 1,
             _id:0
         }        
     }]).then(items=>{
-        res.json({items: items.map(item=> item.fileName)});
-        //console.log({items});
+        //res.json({items: items.map(item=> item.fileName)});
+        res.json(
+            {items: items.map(item=> item.fileName),
+            folderName: folderName}
+        );
+        console.log(
+            {items: items.map(item=> item.fileName)},
+            {folderName: folderName}
+        );        
     }).catch(err=>{
         console.log({err});
     });
